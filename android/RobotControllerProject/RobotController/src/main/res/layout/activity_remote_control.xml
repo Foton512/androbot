@@ -13,7 +13,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerVertical="true"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:id="@+id/controlLayout">
 
         <LinearLayout
             android:orientation="vertical"

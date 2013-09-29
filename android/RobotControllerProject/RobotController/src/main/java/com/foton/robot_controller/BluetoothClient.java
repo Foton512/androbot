@@ -45,9 +45,9 @@ public class BluetoothClient {
         }
     }
 
-    boolean sendInt(int message) {
+    boolean sendInt(int speed, int direction, int turn, int turnDirection, int turnOnly) {
         if (bounded) {
-            return service.sendInt(message);
+            return service.sendInt(speed, direction, turn, turnDirection, turnOnly);
         }
         return false;
     }

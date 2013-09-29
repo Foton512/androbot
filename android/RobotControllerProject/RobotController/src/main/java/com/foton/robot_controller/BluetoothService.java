@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.*;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,8 +21,8 @@ public class BluetoothService extends Service {
     private AtomicBoolean bluetoothConnected = new AtomicBoolean(false);
 
     // Client methods
-    public boolean sendInt(int message) {
-        return send(message);
+    public boolean sendInt(int speed, int direction, int turn, int turnDirection, int turnOnly) {
+        return send(speed, direction, turn, turnDirection, turnOnly);
     }
 
     // Public
@@ -78,13 +79,17 @@ public class BluetoothService extends Service {
         }
     }
 
-    private boolean send(int message) {
+    private boolean send(int speed, int direction, int turn, int turnDirection, int turnOnly) {
         if (!bluetoothConnected.get())
             return false;
         try {
             OutputStream outputStream = connectionThread.socket.getOutputStream();
             InputStream inputStream = connectionThread.socket.getInputStream();
-            outputStream.write(message);
+            outputStream.write(speed);
+            outputStream.write(direction);
+            outputStream.write(turn);
+            outputStream.write(turnDirection);
+            outputStream.write(turnOnly);
             int res = inputStream.read();
             return true;
         }
