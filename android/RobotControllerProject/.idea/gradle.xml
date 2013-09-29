@@ -4,7 +4,7 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="WRAPPED" />
-        <option name="externalProjectPath" value="D:\projects\android" />
+        <option name="externalProjectPath" value="D:\projects" />
         <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
     </option>

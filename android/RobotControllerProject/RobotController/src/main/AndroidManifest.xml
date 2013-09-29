@@ -9,8 +9,8 @@
         android:targetSdkVersion="8" />
 
     <!-- Разрешаем приложению работать с Bluetooth -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -22,13 +22,19 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
-            android:name=".BluetoothService"
+            android:name="com.foton.robot_controller.BluetoothService"
             android:label="BluetoothService" />
+
+        <activity
+            android:name="com.foton.robot_controller.RemoteControlActivity"
+            android:label="@string/title_activity_remote_control"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

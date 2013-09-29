@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RobotController/RobotController.iml" filepath="$PROJECT_DIR$/RobotController/RobotController.iml" />
       <module fileurl="file://$PROJECT_DIR$/RobotControllerProject.iml" filepath="$PROJECT_DIR$/RobotControllerProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../projects.iml" filepath="$PROJECT_DIR$/../../../projects.iml" />
     </modules>
   </component>
 </project>
