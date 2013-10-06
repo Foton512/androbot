@@ -1,7 +1,5 @@
 package com.foton.robot_controller;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +8,18 @@ import android.os.IBinder;
 
 import java.util.ArrayList;
 
-public class BluetoothClient {
-    private BluetoothService service;
+/**
+ * Created by foton on 06.10.13.
+ */
+public class RobotClient {
+    private RobotService service;
+    private BluetoothClient bluetoothClient;
     private boolean bounded = false;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            service = ((BluetoothService.LocalBinder)binder).getService();
+            service = ((RobotService.LocalBinder)binder).getService();
+            service.setBluetoothClient(bluetoothClient);
             bounded = true;
         }
         @Override
@@ -25,37 +28,30 @@ public class BluetoothClient {
         }
     };
 
-    public void enableBluetooth(Activity activity) {
-        activity.startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
-    }
-
-    public void startBluetooth(Context context) {
-        Intent intent = new Intent(context, BluetoothService.class);
+    public void startRobot(Context context) {
+        Intent intent = new Intent(context, RobotService.class);
         context.startService(intent);
     }
 
-    public void stopBluetooth(Context context) {
-        Intent intent = new Intent(context, BluetoothService.class);
+    public void stopRobot(Context context) {
+        Intent intent = new Intent(context, RobotService.class);
         context.stopService(intent);
     }
 
-    public void bindBluetooth(Context context) {
-        Intent intent = new Intent(context, BluetoothService.class);
+    public void bindRobot(Context context, BluetoothClient bluetoothClient_) {
+        bluetoothClient = bluetoothClient_;
+        Intent intent = new Intent(context, RobotService.class);
         context.bindService(intent, connection, 0);
     }
 
-    public void unbindBluetooth(Context context) {
+    public void unbindRobot(Context context) {
         if (bounded) {
             context.unbindService(connection);
             bounded = false;
         }
     }
 
-    public void disconnect() {
-        service.disconnect();
-    }
-
-    boolean sendCommand(ArrayList<Integer> command) {
+    public boolean sendCommand(ArrayList<Integer> command) {
         if (bounded)
             return service.sendCommand(command);
         return false;

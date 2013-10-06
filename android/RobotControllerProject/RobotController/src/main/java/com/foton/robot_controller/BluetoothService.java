@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BluetoothService extends Service {
@@ -20,9 +21,31 @@ public class BluetoothService extends Service {
     private volatile BluetoothDevice bluetoothDevice;
     private AtomicBoolean bluetoothConnected = new AtomicBoolean(false);
 
-    // Client methods
-    public boolean sendInt(int speed, int direction, int turn, int turnDirection, int turnOnly) {
-        return send(speed, direction, turn, turnDirection, turnOnly);
+    public boolean sendCommand(ArrayList<Integer> command) {
+        if (!bluetoothConnected.get())
+            return false;
+        try {
+            OutputStream outputStream = connectionThread.socket.getOutputStream();
+            InputStream inputStream = connectionThread.socket.getInputStream();
+            for (int value : command) {
+                outputStream.write(value);
+            }
+            int res = inputStream.read();
+            return true;
+        }
+        catch (Exception e) {
+            bluetoothConnected.set(false);
+            connect();
+            return false;
+        }
+    }
+
+    public void disconnect() {
+        try {
+            connectionThread.socket.close();
+        }
+        catch (Exception e) {
+        }
     }
 
     // Public
@@ -76,27 +99,6 @@ public class BluetoothService extends Service {
                 catch (Exception e) {
                 }
             }
-        }
-    }
-
-    private boolean send(int speed, int direction, int turn, int turnDirection, int turnOnly) {
-        if (!bluetoothConnected.get())
-            return false;
-        try {
-            OutputStream outputStream = connectionThread.socket.getOutputStream();
-            InputStream inputStream = connectionThread.socket.getInputStream();
-            outputStream.write(speed);
-            outputStream.write(direction);
-            outputStream.write(turn);
-            outputStream.write(turnDirection);
-            outputStream.write(turnOnly);
-            int res = inputStream.read();
-            return true;
-        }
-        catch (Exception e) {
-            bluetoothConnected.set(false);
-            connect();
-            return false;
         }
     }
 

@@ -18,4 +18,23 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="onRemoteControlClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        android:id="@+id/exitButton"
+        android:layout_below="@+id/remoteControlButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="onExitClick" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connected"
+        android:id="@+id/connectedCheckBox"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:checked="false"
+        android:clickable="false" />
 </RelativeLayout>

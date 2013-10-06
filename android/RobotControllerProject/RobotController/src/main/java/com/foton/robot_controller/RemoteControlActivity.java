@@ -4,10 +4,8 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class RemoteControlActivity extends Activity implements View.OnTouchListener {
@@ -22,10 +20,12 @@ public class RemoteControlActivity extends Activity implements View.OnTouchListe
     Rect turnRightImageRect;
 
     float speed = 0;
-    float turn = 0;
+    float turnSpeed = 0;
     boolean turnOnly = false;
 
     BluetoothClient bluetoothClient = new BluetoothClient();
+    RobotClient robotClient = new RobotClient();
+    CommandCreator commandCreator = new CommandCreator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +39,17 @@ public class RemoteControlActivity extends Activity implements View.OnTouchListe
     @Override
     protected void onStart() {
         super.onStart();
+
         bluetoothClient.bindBluetooth(this);
+        robotClient.bindRobot(this, bluetoothClient);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+
         bluetoothClient.unbindBluetooth(this);
+        robotClient.unbindRobot(this);
     }
 
     @Override
@@ -58,14 +62,6 @@ public class RemoteControlActivity extends Activity implements View.OnTouchListe
         rightImageRect = getViewRect(this.findViewById(R.id.rightImage));
         turnLeftImageRect = getViewRect(this.findViewById(R.id.turnLeftImage));
         turnRightImageRect = getViewRect(this.findViewById(R.id.turnRightImage));
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.remote_control, menu);
-        return true;
     }
 
     @Override
@@ -100,35 +96,37 @@ public class RemoteControlActivity extends Activity implements View.OnTouchListe
         }
 
         float newSpeed = 0;
-        float newTurn = 0;
+        float newTurnSpeed = 0;
         boolean newTurnOnly = false;
 
         if (turnLeft) {
-            newTurn = -1;
+            newTurnSpeed = -1;
             newTurnOnly = true;
         }
         else if (turnRight) {
-            newTurn = 1;
+            newTurnSpeed = 1;
             newTurnOnly = true;
         }
         else {
             newSpeed = forward - backward;
-            newTurn = right - left;
+            newTurnSpeed = right - left;
             newTurnOnly = false;
         }
 
-        if (newSpeed != speed || newTurn != turn || newTurnOnly != turnOnly) {
+        if (newSpeed != speed || newTurnSpeed != turnSpeed || newTurnOnly != turnOnly) {
             speed = newSpeed;
-            turn = newTurn;
+            turnSpeed = newTurnSpeed;
             turnOnly = newTurnOnly;
 
-            bluetoothClient.sendInt(
-                    (int)(Math.abs(speed) * 200),
-                    speed >= 0 ? 0 : 1,
-                    (int)(Math.abs(turn) * 200),
-                    turn >= 0 ? 0 : 1,
-                    turnOnly ? 1 : 0
-            );
+            Movement movement = new Movement(speed, turnSpeed, turnOnly);
+            robotClient.sendCommand(commandCreator.GetMoveCommand(movement));
+
+            if (speed > 0 || turnOnly) {
+                robotClient.sendCommand(commandCreator.GetLightCommand(254));
+            }
+            else {
+                robotClient.sendCommand(commandCreator.GetLightCommand(0));
+            }
         }
 
         return true;

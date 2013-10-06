@@ -29,6 +29,9 @@
         <service
             android:name="com.foton.robot_controller.BluetoothService"
             android:label="BluetoothService" />
+        <service
+            android:name=".RobotService"
+            android:label="RobotService" />
 
         <activity
             android:name="com.foton.robot_controller.RemoteControlActivity"
