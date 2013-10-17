@@ -19,10 +19,10 @@ public class BluetoothService extends Service {
     private final IBinder binder = new LocalBinder();
     private ConnectionThread connectionThread;
     private volatile BluetoothDevice bluetoothDevice;
-    private AtomicBoolean bluetoothConnected = new AtomicBoolean(false);
+    private volatile boolean bluetoothConnected = false;
 
-    public boolean sendCommand(ArrayList<Integer> command) {
-        if (!bluetoothConnected.get())
+    public boolean sendCommand(ArrayList<Integer> command, ArrayList<Integer> result) {
+        if (!bluetoothConnected)
             return false;
         try {
             OutputStream outputStream = connectionThread.socket.getOutputStream();
@@ -30,11 +30,13 @@ public class BluetoothService extends Service {
             for (int value : command) {
                 outputStream.write(value);
             }
-            int res = inputStream.read();
+            int resultLength = inputStream.read();
+            for (int i = 0; i < resultLength; ++i)
+                result.add(inputStream.read());
             return true;
         }
         catch (Exception e) {
-            bluetoothConnected.set(false);
+            bluetoothConnected = false;
             connect();
             return false;
         }
@@ -87,7 +89,7 @@ public class BluetoothService extends Service {
                             new Class[] {int.class});
                     socket = (BluetoothSocket)m.invoke(bluetoothDevice, 1);
                     socket.connect();
-                    bluetoothConnected.set(true);
+                    bluetoothConnected = true;
 
                     return;
                 }
@@ -103,6 +105,8 @@ public class BluetoothService extends Service {
     }
 
     private void connect() {
+        if (connectionThread != null && connectionThread.isAlive())
+            return;
         connectionThread = new ConnectionThread();
         connectionThread.start();
     }

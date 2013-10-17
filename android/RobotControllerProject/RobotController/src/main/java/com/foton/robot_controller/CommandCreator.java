@@ -28,5 +28,45 @@ public class CommandCreator {
 
         return values;
     }
+
+    ArrayList<Integer> GetReadLightCommand() {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+
+        values.add(255);
+        values.add(3);
+        values.add(0);
+
+        return values;
+    }
+
+    ArrayList<Integer> GetInfraredDistanceCommand() {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+
+        values.add(255);
+        values.add(4);
+        values.add(0);
+
+        return values;
+    }
+
+    ArrayList<Integer> GetMoveServoCommand() {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+
+        values.add(255);
+        values.add(5);
+        values.add(0);
+
+        return values;
+    }
+
+    ArrayList<Integer> GetCompassAngleCommand() {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+
+        values.add(255);
+        values.add(6);
+        values.add(0);
+
+        return values;
+    }
 }
 

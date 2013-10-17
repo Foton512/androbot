@@ -62,6 +62,11 @@ public class MenuActivity extends Activity {
         startActivity(intent);
     }
 
+    public void onAutopilotClick(View view) {
+        Intent intent = new Intent(this, AutopilotActivity.class);
+        startActivity(intent);
+    }
+
     public void onExitClick(View view) {
         bluetoothClient.disconnect();
         bluetoothClient.stopBluetooth(this);

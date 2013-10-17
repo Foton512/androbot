@@ -55,9 +55,9 @@ public class BluetoothClient {
         service.disconnect();
     }
 
-    boolean sendCommand(ArrayList<Integer> command) {
+    boolean sendCommand(ArrayList<Integer> command, ArrayList<Integer> result) {
         if (bounded)
-            return service.sendCommand(command);
+            return service.sendCommand(command, result);
         return false;
     }
 }

@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 public class RemoteControlActivity extends Activity implements View.OnTouchListener {
     LinearLayout controlLayout;
     int[] controlLayoutLocation = new int[2];
@@ -115,18 +117,33 @@ public class RemoteControlActivity extends Activity implements View.OnTouchListe
 
         if (newSpeed != speed || newTurnSpeed != turnSpeed || newTurnOnly != turnOnly) {
             speed = newSpeed;
-            turnSpeed = newTurnSpeed;
+              turnSpeed = newTurnSpeed;
             turnOnly = newTurnOnly;
 
             Movement movement = new Movement(speed, turnSpeed, turnOnly);
-            robotClient.sendCommand(commandCreator.GetMoveCommand(movement));
+            robotClient.sendCommand(commandCreator.GetMoveCommand(movement), new ArrayList<Integer>());
 
-            if (speed > 0 || turnOnly) {
-                robotClient.sendCommand(commandCreator.GetLightCommand(254));
-            }
-            else {
-                robotClient.sendCommand(commandCreator.GetLightCommand(0));
-            }
+            /*ArrayList<Integer> light = new ArrayList<Integer>();
+            robotClient.sendCommand(commandCreator.GetReadLightCommand(), light);
+
+            if (light.get(0) < 10)
+                robotClient.sendCommand(commandCreator.GetLightCommand(254), new ArrayList<Integer>());
+            else
+                robotClient.sendCommand(commandCreator.GetLightCommand(0), new ArrayList<Integer>());*/
+
+            /*ArrayList<Integer> distanceBytes = new ArrayList<Integer>();
+            robotClient.sendCommand(commandCreator.GetInfraredDistanceCommand(), distanceBytes);
+            int distance = distanceBytes.get(0) * 256 + distanceBytes.get(1);
+            if (distance >= 500)
+                robotClient.sendCommand(commandCreator.GetLightCommand(254), new ArrayList<Integer>());
+            else
+                robotClient.sendCommand(commandCreator.GetLightCommand(0), new ArrayList<Integer>());*/
+
+            /*ArrayList<Integer> compassAngleBytes = new ArrayList<Integer>();
+            if (robotClient.sendCommand(commandCreator.GetCompassAngleCommand(), compassAngleBytes)) {
+                int angle = compassAngleBytes.get(0) * 256 + compassAngleBytes.get(1);
+                Log.d("my", Integer.toString(angle));
+            }*/
         }
 
         return true;

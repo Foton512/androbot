@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -51,9 +52,27 @@ public class RobotClient {
         }
     }
 
-    public boolean sendCommand(ArrayList<Integer> command) {
+    public boolean sendCommand(ArrayList<Integer> command, ArrayList<Integer> result) {
         if (bounded)
-            return service.sendCommand(command);
+            return service.sendCommand(command, result);
+        return false;
+    }
+
+    public boolean startAutopilot() {
+        if (bounded) {
+            service.startAutopilot();
+            Log.d("my", "return true");
+            return true;
+        }
+        Log.d("my", "return false");
+        return false;
+    }
+
+    public boolean stopAutopilot() {
+        if (bounded) {
+            service.stopAutopilot();
+            return true;
+        }
         return false;
     }
 }
