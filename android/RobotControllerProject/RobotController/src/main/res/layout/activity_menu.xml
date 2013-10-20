@@ -8,42 +8,82 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MenuActivity"
     android:longClickable="false"
-    android:gravity="top">
+    android:gravity="top"
+    android:clickable="false"
+    android:background="@color/backColor">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remote control"
-        android:id="@+id/remoteControlButton"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="onRemoteControlClick"/>
+    <TextView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Traditional remote control"
+            android:id="@+id/remoteControlTextView"
+            android:background="@color/darkGreen"
+            android:onClick="onTraditionalRemoteControlClick"
+            android:padding="10dp"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:typeface="sans"
+            android:clickable="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:autoText="false"
+            android:gravity="center"
+            android:textColor="@color/white"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Exit"
-        android:id="@+id/exitButton"
-        android:onClick="onExitClick"
-        android:layout_below="@+id/autopilotButton"
-        android:layout_centerHorizontal="true" />
+    <TextView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Autopilot"
+            android:id="@+id/autopilotTextView"
+            android:background="@color/darkBlue"
+            android:onClick="onAutopilotClick"
+            android:padding="10dp"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:typeface="sans"
+            android:clickable="true"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true"/>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Connected"
-        android:id="@+id/connectedCheckBox"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:checked="false"
-        android:clickable="false" />
+    <TextView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Exit"
+            android:id="@+id/exitTextView"
+            android:background="@color/darkRed"
+            android:onClick="onExitClick"
+            android:padding="10dp"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:typeface="sans"
+            android:clickable="true"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_below="@+id/autopilotTextView"
+            android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Autopilot"
-        android:id="@+id/autopilotButton"
-        android:onClick="onAutopilotClick"
-        android:layout_below="@+id/remoteControlButton"
-        android:layout_centerHorizontal="true" />
+    <TextView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Simple remote control"
+            android:id="@+id/textView"
+            android:background="@color/darkOrange"
+            android:onClick="onSimpleRemoteControlClick"
+            android:padding="10dp"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:typeface="sans"
+            android:clickable="true"
+            android:layout_margin="5dp"
+            android:autoText="false"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_below="@+id/remoteControlTextView"
+            android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>
