@@ -1,5 +1,8 @@
 package com.foton.robot_controller;
 
+import android.util.Log;
+
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -17,8 +20,10 @@ public class MoveStraight extends Macros {
     protected void iteration() {
         ArrayList<Integer> distanceBytes = new ArrayList<Integer>();
         int distance = 1000;
-        if (robot.sendCommand(commandCreator.GetInfraredDistanceCommand(), distanceBytes))
+        if (robot.sendCommand(commandCreator.GetInfraredDistanceCommand(), distanceBytes)) {
             distance = distanceBytes.get(0) * 256 + distanceBytes.get(1);
+            Log.d("my", Integer.toString(distance));
+        }
         if (!moving && distance <= 350) {
             robot.sendCommand(commandCreator.GetMoveCommand(new Movement(1, 0, false)), new ArrayList<Integer>());
             moving = true;

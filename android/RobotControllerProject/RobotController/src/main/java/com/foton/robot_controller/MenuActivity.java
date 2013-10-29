@@ -3,6 +3,7 @@ package com.foton.robot_controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 public class MenuActivity extends Activity {

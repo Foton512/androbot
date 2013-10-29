@@ -42,6 +42,7 @@ public class AutopilotActivity extends Activity {
     }
 
     public void onStartClick(View view) {
+        Log.d("my", "click start");
         while (!robotClient.startAutopilot()) {
             try {
                 Thread.sleep(10);
