@@ -17,7 +17,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name="com.foton.robot_controller.MenuActivity"
             android:label="@string/app_name"
@@ -33,29 +32,30 @@
         <service
             android:name="com.foton.robot_controller.BluetoothService"
             android:label="BluetoothService" />
-
         <service
             android:name="com.foton.robot_controller.RobotService"
             android:label="RobotService" />
 
         <activity
-            android:name=".TraditionalRemoteControlActivity"
+            android:name="com.foton.robot_controller.TraditionalRemoteControlActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
-
         <activity
-                android:name=".SimpleRemoteControlActivity"
-                android:screenOrientation="landscape"
-                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:name="com.foton.robot_controller.SimpleRemoteControlActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
-
         <activity
             android:name="com.foton.robot_controller.AutopilotActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
-
+        <activity
+            android:name="com.foton.robot_controller.MapActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        </activity>
     </application>
 
 </manifest>

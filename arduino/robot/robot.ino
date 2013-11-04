@@ -1,4 +1,6 @@
 #include <Servo.h>
+#include <SoftwareSerial.h>
+#include <URMSerial.h>
 
 #define LEFT_SPEED_PIN 6
 #define RIGHT_SPEED_PIN 5 
@@ -7,6 +9,8 @@
 #define LIGHT_PIN 3
 #define INCOMING_LIGHT_PIN 0
 #define INFRARED_DISTANCE_PIN 1
+#define ULTRA_DISTANCE_PIN_1 11
+#define ULTRA_DISTANCE_PIN_2 10
 #define MIN_SPEED 0
 #define MAX_SPEED 200
 #define BUFFER_LENGTH 20
@@ -21,9 +25,11 @@ int rightDirection = 0; // 1 - forward, 0 - backward
 int lightIntensity = 0;
 int incomingLight = 0;
 int infraredDistance = 0;
+int ultraDistance = 0;
 int servoAngle = START_SERVO_ANGLE;
 
 Servo servo;
+URMSerial urm;
 
 // Command parsing variables
 byte buffer[BUFFER_LENGTH];
@@ -35,6 +41,7 @@ int commandType = 0;  // 1 - move
                       // 3 - get incoming light
                       // 4 - get infrared distance
                       // 5 - set servo angle
+                      // 6 - get ultra distance
 int bodyLength = 0;
 int currentBodyLength = 0;
 
@@ -54,7 +61,16 @@ void readIncomingLight() {
 void readInfraredDistance() {
   infraredDistance = analogRead(INFRARED_DISTANCE_PIN);
 }
-
+void readUltraDistance() {
+  if (urm.requestMeasurementOrTimeout(DISTANCE, ultraDistance) != DISTANCE)
+    ultraDistance = 255;
+  else {
+    if (ultraDistance > 1024)
+      ultraDistance = 1024;
+    if (ultraDistance < 0)
+      ultraDistance = 0;
+  }
+}
 void setServoAngle() {
   servo.write(servoAngle);
 }
@@ -70,6 +86,8 @@ int getBodyLength() {
   else if (commandType == 4)
     return 1;
   else if (commandType == 5)
+    return 1;
+  else if (commandType == 6)
     return 1;
 }
 
@@ -110,6 +128,15 @@ boolean runCommand() {
     setServoAngle();
     Serial.write(0);
   }
+  else if (commandType == 6) {
+    readUltraDistance();
+    Serial.write(2);
+    byte ultraDistanceByte1 = ultraDistance / 256;
+    byte ultraDistanceByte2 = ultraDistance % 256;
+    Serial.write(ultraDistanceByte1);
+    Serial.write(ultraDistanceByte2);
+    return true;
+  }
   
   Serial.write(0);
   return false;
@@ -124,6 +151,7 @@ void setup()
     pinMode(LIGHT_PIN, OUTPUT);
     pinMode(INCOMING_LIGHT_PIN, INPUT);
     servo.attach(9);
+    urm.begin(ULTRA_DISTANCE_PIN_1, ULTRA_DISTANCE_PIN_2, 9600);
     Serial.begin(9600);
     
     setServoAngle();

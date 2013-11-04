@@ -49,6 +49,16 @@ public class CommandCreator {
         return values;
     }
 
+    ArrayList<Integer> GetUltrasoundDistanceCommand() {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+
+        values.add(255);
+        values.add(6);
+        values.add(0);
+
+        return values;
+    }
+
     ArrayList<Integer> GetMoveServoCommand() {
         ArrayList<Integer> values = new ArrayList<Integer>();
 

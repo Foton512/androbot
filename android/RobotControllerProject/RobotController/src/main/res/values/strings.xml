@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_remote_control">Remote control</string>
     <string name="title_activity_autopilot">AutopilotActivity</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>

@@ -10,5 +10,6 @@
     <color name="darkRed">#87112e</color>
     <color name="orange">#da552c</color>
     <color name="darkOrange">#b34421</color>
+    <color name="grey">#aaaaaa</color>
 
 </resources>

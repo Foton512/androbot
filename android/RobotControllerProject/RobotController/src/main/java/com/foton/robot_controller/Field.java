@@ -1,7 +1,9 @@
 package com.foton.robot_controller;
 
+import android.util.Log;
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -9,8 +11,13 @@ import java.util.HashMap;
  */
 public class Field {
     private double cellSize;
-    private int chunkSize;
-    private HashMap<Pair<Integer, Integer>, FieldChunk> fieldChunks;
+    public int chunkSize;
+    private HashMap<Pair<Integer, Integer>, FieldChunk> fieldChunks = new HashMap<Pair<Integer, Integer>, FieldChunk>();
+
+    public Field() {
+        cellSize = 0;
+        chunkSize = 0;
+    }
 
     public Field(double cellSize_, int chunkSize_) {
         cellSize = cellSize_;
@@ -19,8 +26,10 @@ public class Field {
 
     private FieldChunk getFieldChunkByChunkCoords(Pair<Integer, Integer> chunkCoords) {
         FieldChunk fieldChunk = fieldChunks.get(chunkCoords);
-        if (fieldChunk == null)
-            fieldChunk = fieldChunks.put(chunkCoords, new FieldChunk(chunkSize, chunkCoords.first, chunkCoords.second));
+        if (fieldChunk == null) {
+            fieldChunks.put(chunkCoords, new FieldChunk(chunkSize, chunkCoords.first, chunkCoords.second));
+            fieldChunk = fieldChunks.get(chunkCoords);
+        }
         return fieldChunk;
     }
 
@@ -34,9 +43,19 @@ public class Field {
                                           coords.first >= 0 ? (int)(coords.second / cellSize) : (int)(coords.second / cellSize) - 1);
     }
 
-    private FieldChunk getFieldChunkByCoords(Pair<Double, Double> coords) {
-        return getFieldChunkByChunkCoords(getFieldChunkCoordsByCellCoords(getCellCoordsByCoords(coords)));
+    private FieldChunk getFieldChunkByCellCoords(Pair<Integer, Integer> cellCoords) {
+        return getFieldChunkByChunkCoords(getFieldChunkCoordsByCellCoords(cellCoords));
     }
 
+    public Cell getCellByCoords(Pair<Double, Double> coords) {
+        Pair<Integer, Integer> cellCoords = getCellCoordsByCoords(coords);
+        return getFieldChunkByCellCoords(cellCoords).getLocalCell(cellCoords);
+    }
 
+    public ArrayList<FieldChunk> getFieldChunks() {
+        ArrayList<FieldChunk> res = new ArrayList<FieldChunk>();
+        for (FieldChunk fieldChunk: fieldChunks.values())
+            res.add(fieldChunk);
+        return res;
+    }
 }

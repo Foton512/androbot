@@ -10,33 +10,12 @@
     android:background="@color/backColor">
 
     <TextView
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:text="Stop"
-            android:id="@+id/stopTextView"
-            android:background="@color/darkRed"
-            android:onClick="onStopClick"
-            android:padding="10dp"
-            android:textIsSelectable="false"
-            android:textSize="16dp"
-            android:typeface="sans"
-            android:clickable="true"
-            android:layout_margin="5dp"
-            android:autoText="false"
-        android:layout_alignParentStart="false"
-            android:layout_alignParentEnd="false"
-            android:gravity="center"
-            android:textColor="@color/white"
-        android:layout_below="@+id/startTextView"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:text="Start"
-        android:id="@+id/startTextView"
+        android:id="@+id/startStopTextView"
         android:background="@color/darkGreen"
-        android:onClick="onStartClick"
+        android:onClick="onStartStopClick"
         android:padding="10dp"
         android:textIsSelectable="false"
         android:textSize="16dp"
@@ -49,5 +28,26 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="View map"
+        android:id="@+id/mapTextView"
+        android:background="@color/darkOrange"
+        android:onClick="onViewMapClick"
+        android:padding="10dp"
+        android:textIsSelectable="false"
+        android:textSize="16dp"
+        android:typeface="sans"
+        android:clickable="true"
+        android:layout_margin="5dp"
+        android:autoText="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_below="@+id/startStopTextView"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

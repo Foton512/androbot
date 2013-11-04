@@ -16,16 +16,21 @@ public class RobotClient {
     private RobotService service;
     private BluetoothClient bluetoothClient;
     private boolean bounded = false;
+    private ServiceConnection userConnection = null;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder binder) {
             service = ((RobotService.LocalBinder)binder).getService();
             service.setBluetoothClient(bluetoothClient);
             bounded = true;
+            if (userConnection != null)
+                userConnection.onServiceConnected(className, binder);
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             bounded = false;
+            if (userConnection != null)
+                userConnection.onServiceDisconnected(arg0);
         }
     };
 
@@ -40,6 +45,14 @@ public class RobotClient {
     }
 
     public void bindRobot(Context context, BluetoothClient bluetoothClient_) {
+        userConnection = null;
+        bluetoothClient = bluetoothClient_;
+        Intent intent = new Intent(context, RobotService.class);
+        context.bindService(intent, connection, 0);
+    }
+
+    public void bindRobot(Context context, BluetoothClient bluetoothClient_, ServiceConnection userConnection_) {
+        userConnection = userConnection_;
         bluetoothClient = bluetoothClient_;
         Intent intent = new Intent(context, RobotService.class);
         context.bindService(intent, connection, 0);
@@ -61,10 +74,8 @@ public class RobotClient {
     public boolean startAutopilot() {
         if (bounded) {
             service.startAutopilot();
-            Log.d("my", "return true");
             return true;
         }
-        Log.d("my", "return false");
         return false;
     }
 
@@ -74,5 +85,23 @@ public class RobotClient {
             return true;
         }
         return false;
+    }
+
+    public boolean repaint() {
+        if (bounded) {
+            service.repaint();
+            return true;
+        }
+        return false;
+    }
+
+    public Field getField() {
+        if (bounded)
+            return service.getField();
+        return null;
+    }
+
+    public boolean getAutopilotRunning() {
+        return service.getAutopilotRunning();
     }
 }
