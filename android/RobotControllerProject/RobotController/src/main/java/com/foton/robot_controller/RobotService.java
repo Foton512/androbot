@@ -87,13 +87,13 @@ public class RobotService extends Service {
             while (!stopAutopilot) {
                 //Macros macros = macrosStack.peek();
                 //macros.run();
-                /*Cell zeroCell1 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(0), Double.valueOf(0)));
+                Cell zeroCell1 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(0), Double.valueOf(0)));
                 zeroCell1.wall = !zeroCell1.wall;
-                Cell zeroCell2 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(-2), Double.valueOf(-3)));
+                Cell zeroCell2 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(-2.1), Double.valueOf(-2.1)));
                 zeroCell2.wall = !zeroCell2.wall;
                 Cell zeroCell3 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(2), Double.valueOf(-5)));
-                zeroCell3.wall = !zeroCell3.wall;*/
-                Cell zeroCell4 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(6), Double.valueOf(-4)));
+                zeroCell3.wall = !zeroCell3.wall;
+                Cell zeroCell4 = field.getCellByCoords(new Pair<Double, Double>(Double.valueOf(-6), Double.valueOf(4)));
                 zeroCell4.wall = !zeroCell4.wall;
                 repaint();
 

@@ -34,13 +34,13 @@ public class Field {
     }
 
     private Pair<Integer, Integer> getFieldChunkCoordsByCellCoords(Pair<Integer, Integer> cellCoords) {
-        return new Pair<Integer, Integer>(cellCoords.first >= 0 ? (int)(cellCoords.first / cellSize) : -(int)((-cellCoords.first - 1) / cellSize) - 1,
-                                          cellCoords.second >= 0 ? (int)(cellCoords.second / cellSize) : -(int)((-cellCoords.second - 1) / cellSize) - 1);
+        return new Pair<Integer, Integer>(cellCoords.first >= 0 ? (int)(cellCoords.first / chunkSize) : -(int)(Math.ceil(-(double)cellCoords.first / chunkSize)),
+                                          cellCoords.second >= 0 ? (int)(cellCoords.second / chunkSize) : -(int)(Math.ceil(-(double)cellCoords.second / chunkSize)));
     }
     
     private Pair<Integer, Integer> getCellCoordsByCoords(Pair<Double, Double> coords) {
-        return new Pair<Integer, Integer>(coords.first >= 0 ? (int)(coords.first / cellSize) : (int)(coords.first / cellSize) - 1,
-                                          coords.first >= 0 ? (int)(coords.second / cellSize) : (int)(coords.second / cellSize) - 1);
+        return new Pair<Integer, Integer>(coords.first >= 0 ? (int)(coords.first / cellSize) : -(int)(Math.ceil(-coords.first / cellSize)),
+                                          coords.first >= 0 ? (int)(coords.second / cellSize) : -(int)(Math.ceil(-coords.second / cellSize)));
     }
 
     private FieldChunk getFieldChunkByCellCoords(Pair<Integer, Integer> cellCoords) {
